@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.7.0)
 
 project (airnet)
 
-#include("${CMAKE_SOURCE_DIR}/3rd_party/3rd_party.prepare.cmake")
+set (SYSTEM_BIN_DIR "/usr/local/bin")
 
 set (CMAKE_UTIL_MODULE_DIR "${CMAKE_SOURCE_DIR}/util/cmake")
 
