@@ -1,17 +1,15 @@
 #include "global_init.h"
 
+#include <stdlib.h>
 #include <signal.h>
 
-#include "runnable_pool.h"
-
-namespace gamed {
 namespace globalInit{
 static const int kRunnablePoolThreadNum = 8;
 
 namespace {
     void sigbus_handler(int)
     {
-        _exit(0);
+        exit(0);
     }
 
     int InitSignalProcMask()
@@ -33,9 +31,14 @@ namespace {
 
 } // Anonymous
 
-int InitGameServer()
+int InitServer()
 {
+    return 0;
+}
+
+int StopServer()
+{
+    return 0;
 }
 
 } // globalInit
-} // gamed

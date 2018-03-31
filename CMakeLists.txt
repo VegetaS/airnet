@@ -54,4 +54,4 @@ include_macro_recurse(${CMAKE_CURRENT_LIST_DIR})
 
 
 # 工程选项
-#add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/src")
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/src")

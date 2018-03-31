@@ -1,3 +1,28 @@
-include_directories(${ATFRAMEWORK_SERVICE_COMPONENT_DIR})
+﻿# ============ sample - [...] ============
+get_filename_component(SERVER_INST_SRC_BIN_NAME ${CMAKE_CURRENT_LIST_DIR} NAME_WE)
+EchoWithColor(COLOR GREEN "-- Configure ${SERVER_INST_SRC_BIN_NAME} on ${CMAKE_CURRENT_LIST_DIR}")
 
-add_project_recurse(${CMAKE_CURRENT_LIST_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_INSTALL_BAS_DIR}/${SERVER_INST_SRC_BIN_NAME}/bin")
+file(MAKE_DIRECTORY "${PROJECT_INSTALL_BAS_DIR}/${SERVER_INST_SRC_BIN_NAME}/bin")
+file(MAKE_DIRECTORY "${PROJECT_INSTALL_BAS_DIR}/${SERVER_INST_SRC_BIN_NAME}/etc")
+file(MAKE_DIRECTORY "${PROJECT_INSTALL_BAS_DIR}/${SERVER_INST_SRC_BIN_NAME}/log")
+
+# ============ atgateway ============
+
+file(GLOB_RECURSE SERVER_INST_SRC_LIST
+    *.cpp
+    *.cc
+    *.c
+    *.cxx
+    *.h
+    *.hpp
+)
+source_group_by_dir(SERVER_INST_SRC_LIST)
+
+# these service will use atgateway protocol
+include_directories(${ATFRAMEWORK_SERVICE_GATEWAY_PROTOCOL_DIR})
+
+add_executable(${SERVER_INST_SRC_BIN_NAME} ${SERVER_INST_SRC_LIST} ${PROJECT_3RD_PARTY_SRC_LIST})
+target_link_libraries(${SERVER_INST_SRC_BIN_NAME}
+    ${Protobuf_LIBRARY}
+)
