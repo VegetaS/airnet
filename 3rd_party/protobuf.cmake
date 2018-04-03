@@ -2,7 +2,7 @@
 # =========== 3rdparty protobuf ==================
 set (3RD_PARTY_PROTOBUF_BASE_DIR "${CMAKE_CURRENT_LIST_DIR}")
 set (3RD_PARTY_PROTOBUF_PKG_DIR "${CMAKE_CURRENT_LIST_DIR}/pkg")
-set (3RD_PARTY_PROTOBUF_VERSION "3.5.1")
+set (3RD_PARTY_PROTOBUF_VERSION "2.6.1")
 
 if(PROTOBUF_ROOT)
     set (3RD_PARTY_PROTOBUF_ROOT_DIR "${PROTOBUF_ROOT}")
@@ -60,18 +60,18 @@ if (MSVC)
     # set (3RD_PARTY_PROTOBUF_BUILD_SHARED_LIBS OFF)
 endif ()
 
+EchoWithColor(COLOR GREEN "-- RESULT_VARIABLE.(${RESULT_VARIABLE}) ")
+EchoWithColor(COLOR GREEN "-- OUTPUT_VARIABLE.(${OUTPUT_VARIABLE}) ")
 
 FindConfigurePackage(
     PACKAGE Protobuf
-    BUILD_WITH_CMAKE
-    CMAKE_FLAGS -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} ${3RD_PARTY_PROTOBUF_PIE} -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_BUILD_EXAMPLES=OFF -DBUILD_SHARED_LIBS=${3RD_PARTY_PROTOBUF_BUILD_SHARED_LIBS}
+    BUILD_WITH_CONFIGURE
+    CONFIGURE_FLAGS "--disable-shared"
+    MAKE_FLAGS "-j4"
     WORKING_DIRECTORY "${3RD_PARTY_PROTOBUF_PKG_DIR}"
     PREFIX_DIRECTORY "${3RD_PARTY_PROTOBUF_ROOT_DIR}"
     SRC_DIRECTORY_NAME "protobuf-${3RD_PARTY_PROTOBUF_VERSION}"
-    BUILD_DIRECTORY "${3RD_PARTY_PROTOBUF_PKG_DIR}/protobuf-${3RD_PARTY_PROTOBUF_VERSION}/build-obj-dir"
-    PROJECT_DIRECTORY "${3RD_PARTY_PROTOBUF_PKG_DIR}/protobuf-${3RD_PARTY_PROTOBUF_VERSION}/cmake"
-    TAR_URL "https://github.com/google/protobuf/releases/download/v${3RD_PARTY_PROTOBUF_VERSION}/protobuf-cpp-${3RD_PARTY_PROTOBUF_VERSION}.tar.gz"
-    ZIP_URL "https://github.com/google/protobuf/releases/download/v${3RD_PARTY_PROTOBUF_VERSION}/protobuf-cpp-${3RD_PARTY_PROTOBUF_VERSION}.zip"
+    TAR_URL "https://github.com/google/protobuf/archive/v2.6.1.tar.gz"
 )
 
 # try again, cached vars wiil cause find failed.
