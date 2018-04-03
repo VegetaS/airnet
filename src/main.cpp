@@ -42,8 +42,31 @@ int main(int argc, char *argv[]) {
             default: usage(argv[0]); exit(0);
         }
     }
+    
+    int ret = globalInit::InitServer();
+    if (ret)
+    {
+        printf("Init Error %d\n", ret);
+        exit(ret);
+    }
 
-    printf("Bye\n");
+    ///
+    /// main thread wait
+    ///
+    while(!done)
+    {
+        sleep(1);
+    }
+
+    ///
+    /// stop server
+    ///
+    ret = globalInit::StopServer();
+    if (ret)
+    {
+        printf("Stop Server error: %d\n", ret);
+        exit(ret);
+    }
 
     ///
     /// exit program
