@@ -17,11 +17,6 @@ fi
 
 # Check that gtest is present.  Usually it is already there since the
 # directory is set up as an SVN external.
-if test ! -e gtest; then
-  echo "Google Test not present.  Fetching gtest-1.5.0 from the web..."
-  wget https://github.com/google/googletest/releases/tag/release-1.5.0 | tar jx
-  mv gtest-1.5.0 gtest
-fi
 
 set -ex
 
