@@ -7,6 +7,9 @@ include("${PROJECT_3RD_PARTY_ROOT_DIR}/protobuf.cmake")
 # =========== 3rd_party - muduo ===========
 include("${PROJECT_3RD_PARTY_ROOT_DIR}/muduo.cmake")
 
+# =========== 3rd_party - muduo ===========
+include("${PROJECT_3RD_PARTY_ROOT_DIR}/gtest.cmake")
+
 
 ## 导入所有工程项目
 add_project_recurse(${CMAKE_CURRENT_LIST_DIR})
