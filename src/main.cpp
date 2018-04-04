@@ -4,7 +4,7 @@
 #include <unistd.h>
 
 #include <google/protobuf/stubs/common.h>
-#include "global/global_init.h"
+#include "global_init.h"
 using namespace std;
 
 static bool done = false;
