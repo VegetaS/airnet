@@ -1,9 +1,10 @@
 #ifndef COMMON_NET_SESSION_H
 #define COMMON_NET_SESSION_H
 
-#include <string>
 #include <google/protobuf/message.h>
-#include "common/net/tcpconnection.h"
+#include <boost/enable_shared_from_this.hpp>
+
+#include <muduo/net/TcpConnection.h>
 
 namespace common
 {
@@ -12,32 +13,36 @@ namespace net
 
 class SessionManager;
 
-class Session : public TcpConnection
+class Session : common::noncopyable,
+                public boost::enable_shared_from_this<Session>
 {
 public:
 	typedef google::protobuf::Message& MessageRef;
 
-	Session(EventLoop *ploop, int32_t sid, int32_t sockfd, SessionManager *pmanager);
+	Session(SessionManager* pmanager, const muduo::net::TcpConnectionPtr& conn);
 
-	void ConnectCompleted();
-	void Close();
 	void SendProtocol(MessageRef packet);
 
 protected:
-	virtual void OnRecv(Buffer* pbuf) = 0;
+	virtual void OnMessage(const muduo::net::TcpConnectionPtr& conn,
+            muduo::net::Buffer* buffer,
+            muduo::Timestamp) = 0;
+    virtual void OnConnected(const muduo::net::TcpConnectionPtr& conn);
+	virtual void OnClose(const muduo::net::TcpConnectionPtr& conn);
+    virtual void OnWriteComplete(const muduo::net::TcpConnectionPtr& conn);
+    virtual void OnHighWaterMark(const muduo::net::TcpConnectionPtr& conn);
+
 	virtual void OnAddSession() = 0;
 	virtual void OnDelSession() = 0;
 
 	virtual void StartupRegisterMsgHandler() = 0;
-	virtual void ClearPacketVec() = 0;
-	virtual void OnConnected();
-	virtual void OnClose();
+	
 protected:
 	SessionManager *pmanager_;
-	int32_t status_;
+    Muduo::net::TcpConnectionPtr conn_;
 };
 
 } // namespace net
-} // namespace shared
+} // namespace common
 
 #endif // COMMON_NET_SESSION_H
