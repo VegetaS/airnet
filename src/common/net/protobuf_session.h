@@ -1,9 +1,9 @@
 #ifndef COMMON_NET_PROTOBUF_SESSION_H
 #define COMMON_NET_PROTOBUF_SESSION_H
 
-#include "common/net/protobuf/codec_proto.h"
-#include "common/net/protobuf/dispatcher_proto.h"
-#include "session.h"
+#include "common/net/codec_proto.h"
+#include "common/net/dispatcher_proto.h"
+#include "common/net/session.h"
 
 namespace common
 {
@@ -13,10 +13,10 @@ namespace net
 class ProtobufSession : public Session
 {
 public:
-	ProtobufSession(EventLoop* ploop, int32_t sid, int32_t sockfd, SessionManager* pmanager);
+	ProtobufSession(SessionManager* pmanager, const muduo::net::TcpConnectionPtr& conn);
 	virtual ~ProtobufSession();
 protected:
-	virtual void OnRecv(Buffer *pbuf);
+	virtual void OnRecv(Buffer *pbuf) = 0;
 	virtual void OnStartupRegisterMsgHandler() = 0;
 
 	virtual void PacketDefaultHandler(const MessageRef packet);
@@ -27,8 +27,8 @@ protected:
 	ProtobufCodec codec_;
 	ProtobufDispatcher dispatcher_;
 
-	typedef std::vector<ProtobufCodec::MessagePtr> PacketPtrVec;
-	PacketPtrVec vec_packets_;
+	typedef std::vector<ProtobufCodec::MessagePtr> ProtoPtrVec;
+	ProtoPtrVec vec_packets_;
 };
 
 } // namespace net

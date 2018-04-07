@@ -27,8 +27,8 @@ protected:
 	virtual void OnMessage(const muduo::net::TcpConnectionPtr& conn,
             muduo::net::Buffer* buffer,
             muduo::Timestamp) = 0;
-    virtual void OnConnected(const muduo::net::TcpConnectionPtr& conn);
-	virtual void OnClose(const muduo::net::TcpConnectionPtr& conn);
+    virtual void OnConnected(const muduo::net::TcpConnectionPtr& conn) = 0;
+	virtual void OnClose(const muduo::net::TcpConnectionPtr& conn) = 0;
     virtual void OnWriteComplete(const muduo::net::TcpConnectionPtr& conn);
     virtual void OnHighWaterMark(const muduo::net::TcpConnectionPtr& conn);
 

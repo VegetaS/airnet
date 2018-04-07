@@ -32,24 +32,13 @@ namespace net
         conn_->setHighWaterMarkCallback(
                 boost::bind(&Session::OnHighWaterMark,
                     boost::weak_ptr<Session>(shared_from_this()), _1, _2), watermark);
+
+        conn_->setTcpNoDelay(true);
     }
 
     void Session::SendProtocol(MessageRef packet)
     {
-    }
-
-    void Session::OnConnected(const muduo::net::TcpConnectionPtr& conn)
-    {
-        if (conn->connected())
-        {
-            conn->setTcpNoDelay(true);
-        }
-        return ;
-    }
-
-    void Session::OnClose(const muduo::net::TcpConnectionPtr& conn)
-    {
-        return ;
+        ProtobufCodec::SendMsg(conn_, packet);
     }
 
     void Session::OnWriteComplete(const muduo::net::TcpConnectionPtr& conn)
